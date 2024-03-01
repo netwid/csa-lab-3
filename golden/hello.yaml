@@ -1,0 +1,14 @@
+source: |-
+  (print "Hello world!")
+
+input: |-
+  abc
+
+output: |-
+  test
+
+code: |-
+  a
+
+log: |-
+  asas

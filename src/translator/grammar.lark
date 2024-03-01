@@ -1,0 +1,43 @@
+program: expression+
+
+?expression : atomic
+           | if_expression
+           | function
+           | invoke
+
+atomic : name
+       | integer
+       | string
+
+
+function : "(" "defun" name "(" params ")" body ")"
+params : name*
+body : expression
+
+invoke : "(" invokable args ")"
+!invokable : "="
+    | "+"
+    | "-"
+    | "*"
+    | "/"
+    | "%"
+    | ">"
+    | "<"
+    | "set"
+    | "read"
+    | "print"
+    | name
+args : expression*
+
+if_expression : "(" "if" condition if_body else_body? ")"
+condition : expression
+if_body : expression
+else_body : expression
+
+name : NAME
+integer : DEC_NUMBER
+string : STRING
+
+%import python (NAME, STRING, DEC_NUMBER)
+%import common (WS)
+%ignore WS
