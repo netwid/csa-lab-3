@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from src.isa.main import Command, Opcode
+from src.isa.main import AddressingMode, Command, Opcode
 from src.machine.datapath import DataPath
 
 
@@ -23,52 +23,62 @@ class ControlUnit:
             case Opcode.PUSH:
                 self.data_path.data[self.sp] = self.acc
                 self.sp -= 1
-                pass
             case Opcode.POP:
-                self.acc = self.data_path.data[self.sp+1]
                 self.sp += 1
-                pass
+                self.data_path.data[self.sp] = 0  # for testing
             case Opcode.LOAD:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc = command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc = self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc = self.data_path.data[command.arg]
             case Opcode.STORE:
                 self.data_path.data[command.arg] = self.acc
             case Opcode.ADD:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc += command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc += self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc += self.data_path.data[command.arg]
             case Opcode.SUB:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc -= command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc -= self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc -= self.data_path.data[command.arg]
             case Opcode.MUL:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc *= command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc *= self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc *= self.data_path.data[command.arg]
             case Opcode.DIV:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc //= command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc //= self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc //= self.data_path.data[command.arg]
             case Opcode.MOD:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     self.acc %= command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    self.acc %= self.data_path.data[self.sp + command.arg]
                 else:
                     self.acc %= self.data_path.data[command.arg]
             case Opcode.CMP:
-                if command.is_literal_arg:
+                if command.addressing_mode == AddressingMode.Immediate:
                     temp = self.acc - command.arg
+                elif command.addressing_mode == AddressingMode.StackRelative:
+                    temp = self.acc - self.data_path.data[self.sp + command.arg]
                 else:
                     temp = self.acc - self.data_path.data[command.arg]
-                if temp == 0:
-                    self.z = True
-                if temp < 0:
-                    self.c = True
+                self.z = temp == 0
+                self.c = temp < 0
             case Opcode.JMP:
                 self.ip = command.arg - 1
             case Opcode.JE:
@@ -86,6 +96,7 @@ class ControlUnit:
                 self.ip = command.arg - 1
             case Opcode.RET:
                 self.ip = self.data_path.data[self.sp+1]
+                self.data_path.data[self.sp+1] = 0
                 self.sp += 1
 
         self.ip += 1

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from collections import namedtuple
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 
@@ -32,10 +32,17 @@ class Opcode(str, Enum):
         return str(self.value)
 
 
+class AddressingMode(str, Enum):
+    Immediate = "immediate"
+    Direct = "direct"
+    Indirect = "indirect"
+    StackRelative = "stack_relative"
+
+
 @dataclass
 class Command:
     opcode: Opcode
-    is_literal_arg: bool = False
+    addressing_mode: AddressingMode = AddressingMode.Direct
     arg: int = 0
     index: int = 0
 
@@ -43,12 +50,13 @@ class Command:
     link_const_string: int = 0
     link_int: str = None
     link_cmd: Command = None
+    link_addr: list[int] = field(default_factory=list)
 
     comment: str = ""
 
     def to_json(self) -> str:
         return json.dumps({
-            "index": self.index, "opcode": self.opcode.value, "is_literal_arg": self.is_literal_arg, "arg": self.arg,
+            "index": self.index, "opcode": self.opcode.value, "addressing_mode": self.addressing_mode, "arg": self.arg,
             "comment": self.comment
         })
 
@@ -75,6 +83,6 @@ def read_code(code: list[dict]) -> list[Command]:
     commands = []
 
     for cmd in code:
-        commands.append(Command(Opcode(cmd["opcode"]), cmd["is_literal_arg"], cmd["arg"]))
+        commands.append(Command(Opcode(cmd["opcode"]), AddressingMode(cmd["addressing_mode"]), cmd["arg"]))
 
     return commands

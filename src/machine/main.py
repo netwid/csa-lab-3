@@ -22,7 +22,7 @@ def emulate(commands: list[Command], data: list[int], stdin: str, limit: int) ->
             control_unit.decode_and_execute_instruction()
             instr_counter += 1
 
-            logging.debug("data[490:]: %s", control_unit.data_path.data[490:])
+            # logging.debug("data[490:]: %s", control_unit.data_path.data[490:])
     except EOFError:
         logging.warning("Input buffer is empty!")
     except StopIteration:
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     commands = read_code(code)
 
-    emulate(commands, data, "", 1000)
+    emulate(commands, data, "", 5000)
 
 
 

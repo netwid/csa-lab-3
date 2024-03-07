@@ -81,7 +81,7 @@ Data memory
 | load   | addr/literal | data_mem[addr]/literal -> acc          |
 | store  | addr         | acc -> data_mem[addr]                  |
 | push   |              | acc -> stack[SP--]                     |
-| pop    |              | stack[SP+1] -> acc, SP++               |
+| pop    |              | SP++                                   |
 | call   | addr         | stack[SP--] <- IP                      |
 | ret    | addr         | stack[SP--] <- IP                      |
 |        |              |                                        |
