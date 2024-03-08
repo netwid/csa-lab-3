@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-from collections import namedtuple
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -25,6 +24,7 @@ class Opcode(str, Enum):
     JB = "jb"
     IN = "in"
     OUT = "out"
+    OUT_INT = "out_int"
     NOP = "nop"
     HALT = "halt"
 
@@ -56,17 +56,12 @@ class Command:
     comment: str = ""
 
     def to_json(self) -> str:
-        return json.dumps({
-            "index": self.index, "opcode": self.opcode.value, "addressing_mode": self.addressing_mode, "arg": self.arg,
-            "comment": self.comment
-        })
-
-
-class Term(namedtuple("Term", "line pos symbol")):
-    """Описание выражения из исходного текста программы.
-
-    Сделано через класс, чтобы был docstring.
-    """
+        j = {
+            "index": self.index, "opcode": self.opcode.value, "addressing_mode": self.addressing_mode, "arg": self.arg
+        }
+        if self.comment != "":
+            j["comment"] = self.comment
+        return json.dumps(j)
 
 
 def write_code(filename, code):

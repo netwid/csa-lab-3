@@ -11,4 +11,4 @@
       1
       (mylcm n (range (- n 1)))))
 
-(range 20)
+(print (range 20))

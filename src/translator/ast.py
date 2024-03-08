@@ -135,7 +135,13 @@ class Invoke(_Expression, ast_utils.WithMeta):
             case "read":
                 pass
             case "print":
+                assert len(self.args.expressions) == 1, "print takes only one argument"
                 self.args.generate()
+
+                if self.args.expressions[0].__class__ != String:
+                    Code.add_command(Command(Opcode.OUT_INT))
+                    return
+
                 idx = self.args.expressions[0].idx
                 Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
                 Code.add_command(Command(Opcode.STORE))

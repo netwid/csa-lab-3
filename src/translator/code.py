@@ -56,6 +56,10 @@ class Code:
             Code.variables[name] = [len(Code.variables), is_str]
 
     @staticmethod
+    def get_var(name: str, is_str: bool = False) -> None:
+        pass
+
+    @staticmethod
     def get_var_addr(fun: str, name: str) -> int:
         assert name in Code.functions[fun]["args"], f"Variable {name} not found"
         return Code.functions[fun]["args"][name] + 2 + Code.pushes
@@ -69,7 +73,7 @@ class Code:
 
     @staticmethod
     def place_data():
-        index = 1
+        index = 3
         for var in Code.variables.values():
             var[0] = index
             index += 1

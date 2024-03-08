@@ -1,2 +1,1 @@
-(set a (read))
-(print a)
+(print (read))

@@ -13,7 +13,7 @@ def test_emulator(golden, caplog) -> None:
     instruction_memory, data_memory = translate(golden["source"])
     commands = read_code(json.loads(instruction_memory))
     data_memory = json.loads(data_memory)
-    output, log = emulate(commands, data_memory, golden["input"], 1000)
+    output, log = emulate(commands, data_memory, golden["input"], 5000)
     assert instruction_memory == golden.out["code"]
     assert output == golden.out["output"]
-    assert log == golden.out["log"]
+    assert caplog.text == golden.out["log"]

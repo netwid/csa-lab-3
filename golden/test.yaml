@@ -1,0 +1,67 @@
+source: |-
+  (print (if (= 1 1) (if (= 3 4) (* 6 5) (% 98 11)) (/ 6 2)))
+
+input: |
+
+output: |-
+  10
+
+code: |-
+  [{"index": 0, "opcode": "jmp", "addressing_mode": "direct", "arg": 1},
+   {"index": 1, "opcode": "load", "addressing_mode": "immediate", "arg": 1},
+   {"index": 2, "opcode": "push", "addressing_mode": "direct", "arg": 0},
+   {"index": 3, "opcode": "load", "addressing_mode": "immediate", "arg": 1},
+   {"index": 4, "opcode": "cmp", "addressing_mode": "stack_relative", "arg": 1},
+   {"index": 5, "opcode": "pop", "addressing_mode": "direct", "arg": 0},
+   {"index": 6, "opcode": "je", "addressing_mode": "direct", "arg": 8},
+   {"index": 7, "opcode": "jmp", "addressing_mode": "direct", "arg": 27},
+   {"index": 8, "opcode": "load", "addressing_mode": "immediate", "arg": 4},
+   {"index": 9, "opcode": "push", "addressing_mode": "direct", "arg": 0},
+   {"index": 10, "opcode": "load", "addressing_mode": "immediate", "arg": 3},
+   {"index": 11, "opcode": "cmp", "addressing_mode": "stack_relative", "arg": 1},
+   {"index": 12, "opcode": "pop", "addressing_mode": "direct", "arg": 0},
+   {"index": 13, "opcode": "je", "addressing_mode": "direct", "arg": 15},
+   {"index": 14, "opcode": "jmp", "addressing_mode": "direct", "arg": 21},
+   {"index": 15, "opcode": "load", "addressing_mode": "immediate", "arg": 5},
+   {"index": 16, "opcode": "push", "addressing_mode": "direct", "arg": 0},
+   {"index": 17, "opcode": "load", "addressing_mode": "immediate", "arg": 6},
+   {"index": 18, "opcode": "mul", "addressing_mode": "stack_relative", "arg": 1},
+   {"index": 19, "opcode": "pop", "addressing_mode": "direct", "arg": 0},
+   {"index": 20, "opcode": "jmp", "addressing_mode": "direct", "arg": 26},
+   {"index": 21, "opcode": "load", "addressing_mode": "immediate", "arg": 11},
+   {"index": 22, "opcode": "push", "addressing_mode": "direct", "arg": 0},
+   {"index": 23, "opcode": "load", "addressing_mode": "immediate", "arg": 98},
+   {"index": 24, "opcode": "mod", "addressing_mode": "stack_relative", "arg": 1},
+   {"index": 25, "opcode": "pop", "addressing_mode": "direct", "arg": 0},
+   {"index": 26, "opcode": "jmp", "addressing_mode": "direct", "arg": 32},
+   {"index": 27, "opcode": "load", "addressing_mode": "immediate", "arg": 2},
+   {"index": 28, "opcode": "push", "addressing_mode": "direct", "arg": 0},
+   {"index": 29, "opcode": "load", "addressing_mode": "immediate", "arg": 6},
+   {"index": 30, "opcode": "div", "addressing_mode": "stack_relative", "arg": 1},
+   {"index": 31, "opcode": "pop", "addressing_mode": "direct", "arg": 0},
+   {"index": 32, "opcode": "out_int", "addressing_mode": "direct", "arg": 0},
+   {"index": 33, "opcode": "halt", "addressing_mode": "direct", "arg": 0}]
+
+log: |
+  DEBUG   main:emulate       Instr:   0 Ticks:    0 IP:   0 Acc:          0 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   1 Ticks:    3 IP:   1 Acc:          0 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   2 Ticks:    5 IP:   2 Acc:          1 AR:    1 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:   3 Ticks:    8 IP:   3 Acc:          1 AR:    0 DR:    0 SP:  498
+  DEBUG   main:emulate       Instr:   4 Ticks:   10 IP:   4 Acc:          1 AR:    0 DR:    1 SP:  498
+  DEBUG   main:emulate       Instr:   5 Ticks:   12 IP:   5 Acc:          1 AR:  499 DR:    1 SP:  498
+  DEBUG   main:emulate       Instr:   6 Ticks:   15 IP:   6 Acc:          1 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   7 Ticks:   18 IP:   8 Acc:          1 AR:    8 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   8 Ticks:   20 IP:   9 Acc:          4 AR:    8 DR:    4 SP:  499
+  DEBUG   main:emulate       Instr:   9 Ticks:   23 IP:  10 Acc:          4 AR:    0 DR:    0 SP:  498
+  DEBUG   main:emulate       Instr:  10 Ticks:   25 IP:  11 Acc:          3 AR:    0 DR:    3 SP:  498
+  DEBUG   main:emulate       Instr:  11 Ticks:   27 IP:  12 Acc:          3 AR:  499 DR:    4 SP:  498
+  DEBUG   main:emulate       Instr:  12 Ticks:   30 IP:  13 Acc:          3 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  13 Ticks:   33 IP:  14 Acc:          3 AR:   15 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  14 Ticks:   36 IP:  21 Acc:          3 AR:   21 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  15 Ticks:   38 IP:  22 Acc:         11 AR:   21 DR:   11 SP:  499
+  DEBUG   main:emulate       Instr:  16 Ticks:   41 IP:  23 Acc:         11 AR:    0 DR:    0 SP:  498
+  DEBUG   main:emulate       Instr:  17 Ticks:   43 IP:  24 Acc:         98 AR:    0 DR:   98 SP:  498
+  DEBUG   main:emulate       Instr:  18 Ticks:   45 IP:  25 Acc:         10 AR:  499 DR:   11 SP:  498
+  DEBUG   main:emulate       Instr:  19 Ticks:   48 IP:  26 Acc:         10 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  20 Ticks:   51 IP:  32 Acc:         10 AR:   32 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  21 Ticks:   54 IP:  33 Acc:         10 AR:    0 DR:    0 SP:  499
