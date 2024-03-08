@@ -1,14 +1,26 @@
 source: |-
   (print "Hello world!")
 
-input: |-
-  abc
+input: |
 
 output: |-
-  test
+  Hello world!
 
 code: |-
-  a
+  [{"index": 0, "opcode": "jmp", "addressing_mode": "direct", "arg": 1, "comment": ""},
+   {"index": 1, "opcode": "load", "addressing_mode": "immediate", "arg": 1, "comment": ""},
+   {"index": 2, "opcode": "add", "addressing_mode": "immediate", "arg": 1, "comment": ""},
+   {"index": 3, "opcode": "store", "addressing_mode": "direct", "arg": 0, "comment": ""},
+   {"index": 4, "opcode": "out", "addressing_mode": "indirect", "arg": 0, "comment": ""},
+   {"index": 5, "opcode": "load", "addressing_mode": "direct", "arg": 0, "comment": ""},
+   {"index": 6, "opcode": "add", "addressing_mode": "immediate", "arg": 1, "comment": ""},
+   {"index": 7, "opcode": "store", "addressing_mode": "direct", "arg": 0, "comment": ""},
+   {"index": 8, "opcode": "load", "addressing_mode": "direct", "arg": 1, "comment": ""},
+   {"index": 9, "opcode": "cmp", "addressing_mode": "immediate", "arg": 1, "comment": ""},
+   {"index": 10, "opcode": "je", "addressing_mode": "direct", "arg": 14, "comment": ""},
+   {"index": 11, "opcode": "sub", "addressing_mode": "immediate", "arg": 1, "comment": ""},
+   {"index": 12, "opcode": "store", "addressing_mode": "direct", "arg": 1, "comment": ""},
+   {"index": 13, "opcode": "jmp", "addressing_mode": "direct", "arg": 4, "comment": ""},
+   {"index": 14, "opcode": "halt", "addressing_mode": "direct", "arg": 0, "comment": ""}]
 
-log: |-
-  asas
+log: []

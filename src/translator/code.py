@@ -2,13 +2,14 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from src.isa.main import AddressingMode, Command, Opcode
+from src.isa.main import Command, Opcode
 
 
 class Code:
     # Data memory
-    strings: ClassVar[list[str]]
+    strings: ClassVar[list[list[str | int]]] = []
     variables: ClassVar[dict[str, [int, bool]]] = {}
+    data: ClassVar[list] = [0] * 500
 
     # Instruction memory
     start: ClassVar[int] = -1
@@ -17,6 +18,18 @@ class Code:
     functions: ClassVar[dict[str, dict[str, str | int | dict]]] = {}
     if_stack: ClassVar[list[dict]] = []
     pushes: ClassVar[int] = 0
+
+    @staticmethod
+    def clear():
+        Code.commands = []
+        Code.strings = []
+        Code.variables = {}
+        Code.data = [0] * 500
+        Code.start = -1
+        Code.current_function = ""
+        Code.functions = {}
+        Code.if_stack = []
+        Code.pushes = 0
 
     @staticmethod
     def add_command(command: Command):
@@ -33,8 +46,9 @@ class Code:
         Code.add_command(Command(Opcode.POP))
 
     @staticmethod
-    def add_str(string: str):
-        Code.strings.append(string)
+    def add_str(string: str) -> int:
+        Code.strings.append([string, 0])
+        return len(Code.strings) - 1
 
     @staticmethod
     def add_var(name: str, is_str: bool = False) -> None:
@@ -52,7 +66,6 @@ class Code:
         Code.functions[name.value] = {"addr": len(Code.commands), "args": {}}
         for arg in args:
             Code.functions[name.value]["args"][arg.value] = len(Code.functions[name.value]["args"])
-        print(Code.functions)
 
     @staticmethod
     def place_data():
@@ -60,23 +73,29 @@ class Code:
         for var in Code.variables.values():
             var[0] = index
             index += 1
+        for s in Code.strings:
+            s[1] = index
+            Code.data[index] = len(s[0])
+            index += 1
+            for char in s[0]:
+                Code.data[index] = ord(char)
+                index += 1
 
     @staticmethod
     def compile() -> (list[str], list):
         Code.place_data()
-        Code.commands = [Command(Opcode.JMP, arg=Code.start), *Code.commands]
+        Code.commands[0].arg = Code.start
         Code.commands.append(Command(Opcode.HALT))
         for index, command in enumerate(Code.commands):
             command.index = index
         for _, command in enumerate(Code.commands):
             if command.link_cmd:
-                command.arg = command.link_cmd.index - 1
+                command.arg = command.link_cmd.index
             if command.link_int:
                 command.arg = Code.get_var(command.link_int)[0]
             if command.link_addr:
                 command.arg = command.link_addr[0]
+            if command.link_str != -1:
+                command.arg = Code.strings[command.link_str][1]
 
-            if (not command.addressing_mode == AddressingMode.Immediate
-                    and not command.addressing_mode == AddressingMode.StackRelative):
-                command.arg += 1
-        return [cmd.to_json() for cmd in Code.commands], []
+        return [cmd.to_json() for cmd in Code.commands], Code.data

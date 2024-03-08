@@ -17,12 +17,12 @@ def emulate(commands: list[Command], data: list[int], stdin: str, limit: int) ->
 
     try:
         while instr_counter < limit:
-            logging.debug("Acc: %d, SP: %d, IP: %d", control_unit.acc, control_unit.sp, control_unit.ip)
+            logging.debug("Acc: %d, SP: %d, IP: %d", control_unit.ACC, control_unit.SP, control_unit.IP)
 
             control_unit.decode_and_execute_instruction()
             instr_counter += 1
 
-            # logging.debug("data[490:]: %s", control_unit.data_path.data[490:])
+            logging.debug("data[1]: %s", control_unit.data_path.data[1])
     except EOFError:
         logging.warning("Input buffer is empty!")
     except StopIteration:
@@ -30,6 +30,8 @@ def emulate(commands: list[Command], data: list[int], stdin: str, limit: int) ->
 
     if instr_counter >= limit:
         logging.warning("Limit exceeded!")
+
+    return data_path.stdout, data_path.logs
 
 
 if __name__ == "__main__":

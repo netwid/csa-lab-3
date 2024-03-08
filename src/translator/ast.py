@@ -44,10 +44,13 @@ class _Integer(_Atomic, ast_utils.WithMeta):
 class String(_Atomic, ast_utils.WithMeta):
     meta: Meta
     value: str
+    idx: int = 0
 
     def generate(self):
         assert True is all(32 <= ord(char) <= 126 for char in self.value), \
             f"String {self.value} contains invalid characters"
+        self.idx = Code.add_str(self.value)
+        Code.add_command(Command(Opcode.LOAD, addressing_mode=AddressingMode.Immediate, link_str=self.idx))
 
 
 @dataclass
@@ -56,7 +59,6 @@ class Name(_Atomic, ast_utils.WithMeta):
     value: str
 
     def generate(self):
-        print(Code.get_var_addr(Code.current_function, self.value))
         Code.add_command(Command(Opcode.LOAD, addressing_mode=AddressingMode.StackRelative,
                                  arg=Code.get_var_addr(Code.current_function, self.value)))
 
@@ -133,7 +135,23 @@ class Invoke(_Expression, ast_utils.WithMeta):
             case "read":
                 pass
             case "print":
-                pass
+                self.args.generate()
+                idx = self.args.expressions[0].idx
+                Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.STORE))
+
+                out = Command(Opcode.OUT, addressing_mode=AddressingMode.Indirect, arg=0)
+                Code.add_command(out)
+                Code.add_command(Command(Opcode.LOAD))
+                Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.STORE))
+
+                Code.add_command(Command(Opcode.LOAD, link_str=idx))
+                Code.add_command(Command(Opcode.CMP, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.JE, arg=len(Code.commands)+4))
+                Code.add_command(Command(Opcode.SUB, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.STORE, link_str=idx))
+                Code.add_command(Command(Opcode.JMP, link_cmd=out))
             case "=":
                 self.args.generate()
                 jump_op([Opcode.JE])

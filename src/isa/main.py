@@ -49,6 +49,7 @@ class Command:
     # Temp before compile
     link_const_string: int = 0
     link_int: str = None
+    link_str: int = -1
     link_cmd: Command = None
     link_addr: list[int] = field(default_factory=list)
 

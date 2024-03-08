@@ -5,15 +5,18 @@ from __future__ import annotations
 
 import argparse
 
+from src.isa.main import Command, Opcode
 from src.translator.ast import parse
 from src.translator.code import Code
 
 
 def translate(text) -> (str, str):
+    Code.clear()
     tree = parse(text)
+    Code.add_command(Command(Opcode.JMP))
     tree.generate()
     code, data = Code.compile()
-    return "[" + ",\n ".join(code) + "]", "[" + ",\n ".join(data) + "]"
+    return "[" + ",\n ".join(code) + "]", "[" + ",\n ".join([str(cell) for cell in data]) + "]"
 
 
 if __name__ == "__main__":
