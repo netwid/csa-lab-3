@@ -108,7 +108,7 @@ class Invoke(_Expression, ast_utils.WithMeta):
     invokable: Invokable
     args: Args
 
-    def generate(self):
+    def generate(self):  # noqa C901
         index = len(Code.commands)
 
         if Code.current_function == "" and Code.start == -1:
@@ -133,16 +133,35 @@ class Invoke(_Expression, ast_utils.WithMeta):
             case "set":
                 invoke_set(self.args)
             case "read":
-                pass
+                assert len(self.args.expressions) == 0, "read don't take arguments"
+                ptr_addr, len_ptr = Code.add_input()
+
+                in_cmd = Command(Opcode.IN)
+                Code.add_command(in_cmd)
+                Code.add_command(Command(Opcode.CMP, addressing_mode=AddressingMode.Immediate, arg=0))
+                Code.add_command(Command(Opcode.JE, arg=len(Code.commands)+9))
+                Code.add_command(Command(Opcode.STORE, addressing_mode=AddressingMode.Indirect, link_addr=ptr_addr))
+                Code.add_command(Command(Opcode.LOAD, link_addr=ptr_addr))
+                Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.STORE, link_addr=ptr_addr))
+                Code.add_command(Command(Opcode.LOAD, link_addr=len_ptr))
+                Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
+                Code.add_command(Command(Opcode.STORE, link_addr=len_ptr))
+                Code.add_command(Command(Opcode.JMP, arg=len(Code.commands)-11))
+                Code.add_command(Command(Opcode.LOAD, addressing_mode=AddressingMode.Immediate, link_addr=len_ptr))
+                Code.last_input = len_ptr
             case "print":
                 assert len(self.args.expressions) == 1, "print takes only one argument"
                 self.args.generate()
 
-                if self.args.expressions[0].__class__ != String:
+                if self.args.expressions[0].__class__ != String and not Code.last_input:
                     Code.add_command(Command(Opcode.OUT_INT))
                     return
 
-                idx = self.args.expressions[0].idx
+                if Code.last_input:
+                    idx = Code.last_input
+                else:
+                    idx = self.args.expressions[0].idx
                 Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
                 Code.add_command(Command(Opcode.STORE))
 
@@ -152,11 +171,17 @@ class Invoke(_Expression, ast_utils.WithMeta):
                 Code.add_command(Command(Opcode.ADD, addressing_mode=AddressingMode.Immediate, arg=1))
                 Code.add_command(Command(Opcode.STORE))
 
-                Code.add_command(Command(Opcode.LOAD, link_str=idx))
+                if Code.last_input:
+                    Code.add_command(Command(Opcode.LOAD, link_addr=idx))
+                else:
+                    Code.add_command(Command(Opcode.LOAD, link_str=idx))
                 Code.add_command(Command(Opcode.CMP, addressing_mode=AddressingMode.Immediate, arg=1))
                 Code.add_command(Command(Opcode.JE, arg=len(Code.commands)+4))
                 Code.add_command(Command(Opcode.SUB, addressing_mode=AddressingMode.Immediate, arg=1))
-                Code.add_command(Command(Opcode.STORE, link_str=idx))
+                if Code.last_input:
+                    Code.add_command(Command(Opcode.STORE, link_addr=idx))
+                else:
+                    Code.add_command(Command(Opcode.STORE, link_str=idx))
                 Code.add_command(Command(Opcode.JMP, link_cmd=out))
             case "=":
                 self.args.generate()

@@ -47,7 +47,10 @@ if __name__ == "__main__":
 
     commands = read_code(code)
 
-    emulate(commands, data, "", 5000)
+    with open(args.input_file) as f:
+        stdin = f.read()
+
+    emulate(commands, data, stdin, 5000)
 
 
 

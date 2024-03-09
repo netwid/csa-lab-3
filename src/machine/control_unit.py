@@ -62,7 +62,6 @@ class ControlUnit:
                 self.data_path.alu_eval(Opcode.ADD)
                 self.data_path.latch_acc()
             case Opcode.STORE:
-                self.data_path.latch_ar(Selector.FROM_CR, command.arg)
                 self.data_path.latch_dr(Selector.FROM_ACC)
                 self.data_path.signal_wr()
             case Opcode.ADD | Opcode.SUB | Opcode.MUL | Opcode.DIV | Opcode.MOD | Opcode.CMP:
@@ -94,9 +93,11 @@ class ControlUnit:
                 self.data_path.signal_oe()
                 self.latch_ip(Selector.FROM_DR)
             case Opcode.OUT:
-                self.data_path.stdout += chr(self.data_path.data[self.data_path.data[command.arg]])
+                self.data_path.stdout += chr(self.data_path.DR)
             case Opcode.OUT_INT:
                 self.data_path.stdout += str(self.data_path.ACC)
+            case Opcode.IN:
+                self.data_path.latch_acc(Selector.FROM_INPUT)
 
     def process_instruction(self):
         self.instr_fetch()

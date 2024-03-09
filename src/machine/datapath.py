@@ -54,6 +54,9 @@ class DataPath:
     def latch_acc(self, sel: Selector = Selector.FROM_ALU):
         if sel == Selector.FROM_ALU:
             self.ACC = self.ALU.result
+        if sel == Selector.FROM_INPUT:
+            self.ACC = ord(self.stdin[0]) if self.stdin else 0
+            self.stdin = self.stdin[1:]
 
     def latch_sp(self, sel: Selector):
         if sel == Selector.SEL_INC:

@@ -299,7 +299,7 @@ DEBUG   main:emulate       Instr:   0 Ticks:    0 IP:   0 Acc:          0 AR:   
 ## Статистика
 | ФИО                     | алг             | LoC | code байт | code инстр. | инстр. | такт. | вариант                                              |
 |-------------------------|-----------------|-----|-----------|-------------|--------|-------|------------------------------------------------------|
-| Кузьмин Илья Дмитриевич | hello           | 1   | -         | 6           | 15     | 28    | lisp acc harv hw instr struct stream port pstr prob5 |
-| Кузьмин Илья Дмитриевич | cat             | 1   | -         | 6           | 15     | 28    | lisp acc harv hw instr struct stream port pstr prob5 |
-| Кузьмин Илья Дмитриевич | hello_user_name | 4   | -         | 6           | 15     | 28    | lisp acc harv hw instr struct stream port pstr prob5 |
-| Кузьмин Илья Дмитриевич | prob5           | 11  | -         | 70          | 2086   | 28    | lisp acc harv hw instr struct stream port pstr prob5 |
+| Кузьмин Илья Дмитриевич | hello           | 1   | -         | 15          | 122    | 315   | lisp acc harv hw instr struct stream port pstr prob5 |
+| Кузьмин Илья Дмитриевич | cat             | 1   | -         | 26          | 93     | 239   | lisp acc harv hw instr struct stream port pstr prob5 |
+| Кузьмин Илья Дмитриевич | hello_user_name | 4   | -         | 28          | 262    | 678   | lisp acc harv hw instr struct stream port pstr prob5 |
+| Кузьмин Илья Дмитриевич | prob5           | 11  | -         | 71          | 2087   | 5539  | lisp acc harv hw instr struct stream port pstr prob5 |

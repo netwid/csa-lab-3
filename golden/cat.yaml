@@ -1,0 +1,131 @@
+source: |-
+  (print (read))
+
+input: |-
+  test
+
+output: |-
+  test
+
+code: |-
+  [{"index": 0, "opcode": "jmp", "addressing_mode": "direct", "arg": 1},
+   {"index": 1, "opcode": "in", "addressing_mode": "direct", "arg": 0},
+   {"index": 2, "opcode": "cmp", "addressing_mode": "immediate", "arg": 0},
+   {"index": 3, "opcode": "je", "addressing_mode": "direct", "arg": 12},
+   {"index": 4, "opcode": "store", "addressing_mode": "indirect", "arg": 3},
+   {"index": 5, "opcode": "load", "addressing_mode": "direct", "arg": 3},
+   {"index": 6, "opcode": "add", "addressing_mode": "immediate", "arg": 1},
+   {"index": 7, "opcode": "store", "addressing_mode": "direct", "arg": 3},
+   {"index": 8, "opcode": "load", "addressing_mode": "direct", "arg": 4},
+   {"index": 9, "opcode": "add", "addressing_mode": "immediate", "arg": 1},
+   {"index": 10, "opcode": "store", "addressing_mode": "direct", "arg": 4},
+   {"index": 11, "opcode": "jmp", "addressing_mode": "direct", "arg": 0},
+   {"index": 12, "opcode": "load", "addressing_mode": "immediate", "arg": 4},
+   {"index": 13, "opcode": "add", "addressing_mode": "immediate", "arg": 1},
+   {"index": 14, "opcode": "store", "addressing_mode": "direct", "arg": 0},
+   {"index": 15, "opcode": "out", "addressing_mode": "indirect", "arg": 0},
+   {"index": 16, "opcode": "load", "addressing_mode": "direct", "arg": 0},
+   {"index": 17, "opcode": "add", "addressing_mode": "immediate", "arg": 1},
+   {"index": 18, "opcode": "store", "addressing_mode": "direct", "arg": 0},
+   {"index": 19, "opcode": "load", "addressing_mode": "direct", "arg": 4},
+   {"index": 20, "opcode": "cmp", "addressing_mode": "immediate", "arg": 1},
+   {"index": 21, "opcode": "je", "addressing_mode": "direct", "arg": 25},
+   {"index": 22, "opcode": "sub", "addressing_mode": "immediate", "arg": 1},
+   {"index": 23, "opcode": "store", "addressing_mode": "direct", "arg": 4},
+   {"index": 24, "opcode": "jmp", "addressing_mode": "direct", "arg": 15},
+   {"index": 25, "opcode": "halt", "addressing_mode": "direct", "arg": 0}]
+
+log: |
+  DEBUG   main:emulate       Instr:   0 Ticks:    0 IP:   0 Acc:          0 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   1 Ticks:    3 IP:   1 Acc:          0 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   2 Ticks:    6 IP:   2 Acc:        116 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   3 Ticks:    8 IP:   3 Acc:        116 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   4 Ticks:   11 IP:   4 Acc:        116 AR:   12 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:   5 Ticks:   14 IP:   5 Acc:        116 AR:    5 DR:  116 SP:  499
+  DEBUG   main:emulate       Instr:   6 Ticks:   17 IP:   6 Acc:          5 AR:    3 DR:    5 SP:  499
+  DEBUG   main:emulate       Instr:   7 Ticks:   19 IP:   7 Acc:          6 AR:    3 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:   8 Ticks:   21 IP:   8 Acc:          6 AR:    3 DR:    6 SP:  499
+  DEBUG   main:emulate       Instr:   9 Ticks:   24 IP:   9 Acc:          0 AR:    4 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  10 Ticks:   26 IP:  10 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  11 Ticks:   28 IP:  11 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  12 Ticks:   31 IP:   0 Acc:          1 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  13 Ticks:   34 IP:   1 Acc:          1 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  14 Ticks:   37 IP:   2 Acc:        101 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  15 Ticks:   39 IP:   3 Acc:        101 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  16 Ticks:   42 IP:   4 Acc:        101 AR:   12 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  17 Ticks:   45 IP:   5 Acc:        101 AR:    6 DR:  101 SP:  499
+  DEBUG   main:emulate       Instr:  18 Ticks:   48 IP:   6 Acc:          6 AR:    3 DR:    6 SP:  499
+  DEBUG   main:emulate       Instr:  19 Ticks:   50 IP:   7 Acc:          7 AR:    3 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  20 Ticks:   52 IP:   8 Acc:          7 AR:    3 DR:    7 SP:  499
+  DEBUG   main:emulate       Instr:  21 Ticks:   55 IP:   9 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  22 Ticks:   57 IP:  10 Acc:          2 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  23 Ticks:   59 IP:  11 Acc:          2 AR:    4 DR:    2 SP:  499
+  DEBUG   main:emulate       Instr:  24 Ticks:   62 IP:   0 Acc:          2 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  25 Ticks:   65 IP:   1 Acc:          2 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  26 Ticks:   68 IP:   2 Acc:        115 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  27 Ticks:   70 IP:   3 Acc:        115 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  28 Ticks:   73 IP:   4 Acc:        115 AR:   12 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  29 Ticks:   76 IP:   5 Acc:        115 AR:    7 DR:  115 SP:  499
+  DEBUG   main:emulate       Instr:  30 Ticks:   79 IP:   6 Acc:          7 AR:    3 DR:    7 SP:  499
+  DEBUG   main:emulate       Instr:  31 Ticks:   81 IP:   7 Acc:          8 AR:    3 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  32 Ticks:   83 IP:   8 Acc:          8 AR:    3 DR:    8 SP:  499
+  DEBUG   main:emulate       Instr:  33 Ticks:   86 IP:   9 Acc:          2 AR:    4 DR:    2 SP:  499
+  DEBUG   main:emulate       Instr:  34 Ticks:   88 IP:  10 Acc:          3 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  35 Ticks:   90 IP:  11 Acc:          3 AR:    4 DR:    3 SP:  499
+  DEBUG   main:emulate       Instr:  36 Ticks:   93 IP:   0 Acc:          3 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  37 Ticks:   96 IP:   1 Acc:          3 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  38 Ticks:   99 IP:   2 Acc:        116 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  39 Ticks:  101 IP:   3 Acc:        116 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  40 Ticks:  104 IP:   4 Acc:        116 AR:   12 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  41 Ticks:  107 IP:   5 Acc:        116 AR:    8 DR:  116 SP:  499
+  DEBUG   main:emulate       Instr:  42 Ticks:  110 IP:   6 Acc:          8 AR:    3 DR:    8 SP:  499
+  DEBUG   main:emulate       Instr:  43 Ticks:  112 IP:   7 Acc:          9 AR:    3 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  44 Ticks:  114 IP:   8 Acc:          9 AR:    3 DR:    9 SP:  499
+  DEBUG   main:emulate       Instr:  45 Ticks:  117 IP:   9 Acc:          3 AR:    4 DR:    3 SP:  499
+  DEBUG   main:emulate       Instr:  46 Ticks:  119 IP:  10 Acc:          4 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  47 Ticks:  121 IP:  11 Acc:          4 AR:    4 DR:    4 SP:  499
+  DEBUG   main:emulate       Instr:  48 Ticks:  124 IP:   0 Acc:          4 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  49 Ticks:  127 IP:   1 Acc:          4 AR:    1 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  50 Ticks:  130 IP:   2 Acc:          0 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  51 Ticks:  132 IP:   3 Acc:          0 AR:    0 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  52 Ticks:  135 IP:  12 Acc:          0 AR:   12 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  53 Ticks:  137 IP:  13 Acc:          4 AR:   12 DR:    4 SP:  499
+  DEBUG   main:emulate       Instr:  54 Ticks:  139 IP:  14 Acc:          5 AR:   12 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  55 Ticks:  141 IP:  15 Acc:          5 AR:    0 DR:    5 SP:  499
+  DEBUG   main:emulate       Instr:  56 Ticks:  145 IP:  16 Acc:          5 AR:    5 DR:  116 SP:  499
+  DEBUG   main:emulate       Instr:  57 Ticks:  148 IP:  17 Acc:          5 AR:    0 DR:    5 SP:  499
+  DEBUG   main:emulate       Instr:  58 Ticks:  150 IP:  18 Acc:          6 AR:    0 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  59 Ticks:  152 IP:  19 Acc:          6 AR:    0 DR:    6 SP:  499
+  DEBUG   main:emulate       Instr:  60 Ticks:  155 IP:  20 Acc:          4 AR:    4 DR:    4 SP:  499
+  DEBUG   main:emulate       Instr:  61 Ticks:  157 IP:  21 Acc:          4 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  62 Ticks:  160 IP:  22 Acc:          4 AR:   25 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  63 Ticks:  162 IP:  23 Acc:          3 AR:   25 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  64 Ticks:  164 IP:  24 Acc:          3 AR:    4 DR:    3 SP:  499
+  DEBUG   main:emulate       Instr:  65 Ticks:  167 IP:  15 Acc:          3 AR:   15 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  66 Ticks:  171 IP:  16 Acc:          3 AR:    6 DR:  101 SP:  499
+  DEBUG   main:emulate       Instr:  67 Ticks:  174 IP:  17 Acc:          6 AR:    0 DR:    6 SP:  499
+  DEBUG   main:emulate       Instr:  68 Ticks:  176 IP:  18 Acc:          7 AR:    0 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  69 Ticks:  178 IP:  19 Acc:          7 AR:    0 DR:    7 SP:  499
+  DEBUG   main:emulate       Instr:  70 Ticks:  181 IP:  20 Acc:          3 AR:    4 DR:    3 SP:  499
+  DEBUG   main:emulate       Instr:  71 Ticks:  183 IP:  21 Acc:          3 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  72 Ticks:  186 IP:  22 Acc:          3 AR:   25 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  73 Ticks:  188 IP:  23 Acc:          2 AR:   25 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  74 Ticks:  190 IP:  24 Acc:          2 AR:    4 DR:    2 SP:  499
+  DEBUG   main:emulate       Instr:  75 Ticks:  193 IP:  15 Acc:          2 AR:   15 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  76 Ticks:  197 IP:  16 Acc:          2 AR:    7 DR:  115 SP:  499
+  DEBUG   main:emulate       Instr:  77 Ticks:  200 IP:  17 Acc:          7 AR:    0 DR:    7 SP:  499
+  DEBUG   main:emulate       Instr:  78 Ticks:  202 IP:  18 Acc:          8 AR:    0 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  79 Ticks:  204 IP:  19 Acc:          8 AR:    0 DR:    8 SP:  499
+  DEBUG   main:emulate       Instr:  80 Ticks:  207 IP:  20 Acc:          2 AR:    4 DR:    2 SP:  499
+  DEBUG   main:emulate       Instr:  81 Ticks:  209 IP:  21 Acc:          2 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  82 Ticks:  212 IP:  22 Acc:          2 AR:   25 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  83 Ticks:  214 IP:  23 Acc:          1 AR:   25 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  84 Ticks:  216 IP:  24 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  85 Ticks:  219 IP:  15 Acc:          1 AR:   15 DR:    0 SP:  499
+  DEBUG   main:emulate       Instr:  86 Ticks:  223 IP:  16 Acc:          1 AR:    8 DR:  116 SP:  499
+  DEBUG   main:emulate       Instr:  87 Ticks:  226 IP:  17 Acc:          8 AR:    0 DR:    8 SP:  499
+  DEBUG   main:emulate       Instr:  88 Ticks:  228 IP:  18 Acc:          9 AR:    0 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  89 Ticks:  230 IP:  19 Acc:          9 AR:    0 DR:    9 SP:  499
+  DEBUG   main:emulate       Instr:  90 Ticks:  233 IP:  20 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  91 Ticks:  235 IP:  21 Acc:          1 AR:    4 DR:    1 SP:  499
+  DEBUG   main:emulate       Instr:  92 Ticks:  238 IP:  25 Acc:          1 AR:   25 DR:    0 SP:  499

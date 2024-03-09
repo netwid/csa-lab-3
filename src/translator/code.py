@@ -10,6 +10,8 @@ class Code:
     strings: ClassVar[list[list[str | int]]] = []
     variables: ClassVar[dict[str, [int, bool]]] = {}
     data: ClassVar[list] = [0] * 500
+    inputs: ClassVar[list[list[int], list[int]]] = []
+    last_input: list[int] = None
 
     # Instruction memory
     start: ClassVar[int] = -1
@@ -30,6 +32,7 @@ class Code:
         Code.functions = {}
         Code.if_stack = []
         Code.pushes = 0
+        Code.last_input = None
 
     @staticmethod
     def add_command(command: Command):
@@ -49,6 +52,11 @@ class Code:
     def add_str(string: str) -> int:
         Code.strings.append([string, 0])
         return len(Code.strings) - 1
+
+    @staticmethod
+    def add_input():
+        Code.inputs.append([[0], [0]])
+        return Code.inputs[-1]
 
     @staticmethod
     def add_var(name: str, is_str: bool = False) -> None:
@@ -84,6 +92,11 @@ class Code:
             for char in s[0]:
                 Code.data[index] = ord(char)
                 index += 1
+        for i in Code.inputs:
+            Code.data[index] = index + 2
+            i[0][0] = index
+            i[1][0] = index + 1
+            index += 100
 
     @staticmethod
     def compile() -> (list[str], list):
